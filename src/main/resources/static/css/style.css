@@ -1,0 +1,254 @@
+
+
+/* Navbar */
+
+.navbar{
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:#ffffff;
+    color:#333;
+}
+
+/* Navbar */
+
+.navbar{
+    background:#111827 !important;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.navbar-brand{
+    font-size:28px;
+}
+
+.nav-link{
+    color:white !important;
+    margin-left:10px;
+}
+
+.nav-link:hover{
+    color:#F59E0B !important;
+}
+
+/* Hero */
+
+.hero{
+    min-height:90vh;
+    display:flex;
+    align-items:center;
+    background:linear-gradient(180deg,#b98585 0%,#c99b9b 100%);
+    color:#111827;
+}
+.features-section{
+    background:linear-gradient(
+        to bottom,
+        #c99b9b 0%,
+        #d7b1b1 15%,
+        #e7d0d0 35%,
+        #f4ecec 60%,
+        #fbf8f8 80%,
+        #ffffff 100%
+    );
+}
+
+.hero h1{
+
+    font-size:60px;
+
+    font-weight:700;
+
+    line-height:1.2;
+    color:black
+
+}
+
+.hero p{
+
+    font-size:22px;
+
+    color:#6b7280;
+
+}
+
+.hero-image{
+    width:100%;
+    max-width:500px;
+    height:auto;
+    display:block;
+    margin:auto;
+    animation:float 4s ease-in-out infinite;
+}
+
+.btn-warning{
+
+    background:#F59E0B;
+
+    border:none;
+
+    color:white;
+
+    padding:12px 35px;
+
+    font-weight:bold;
+
+}
+
+.btn-warning:hover{
+
+    background:#d97706;
+
+}
+
+.btn-outline-dark{
+
+    padding:12px 35px;
+
+    font-weight:bold;
+
+}
+
+/* Cards */
+
+.card{
+    border:none;
+    border-radius:20px;
+    background:#ffffff;
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+    transition:.35s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+/* Statistics */
+
+.stats{
+
+    background:#111827;
+
+    color:white;
+
+    padding:60px 0;
+
+}
+
+.stats h2{
+
+    color:#F59E0B;
+
+    font-size:42px;
+
+}
+
+/* Footer */
+
+footer{
+
+    background:#111827;
+
+    color:white;
+
+    padding:30px;
+
+}
+
+/* Floating animation */
+
+@keyframes float{
+
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-15px);}
+    100%{transform:translateY(0);}
+
+}
+
+/* Recruiter Logos */
+
+/* ================= Recruiters ================= */
+
+.logo-card{
+    background:#fff;
+    border-radius:15px;
+    padding:25px;
+    height:150px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    transition:0.3s;
+}
+
+.logo-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+.recruiter-logo{
+    max-width:150px;
+    max-height:70px;
+    object-fit:contain;
+}
+/* ================= MOBILE RESPONSIVE ================= */
+
+@media (max-width:768px){
+
+    .hero{
+        padding:60px 0;
+        text-align:center;
+    }
+
+    .hero h1{
+        font-size:40px;
+    }
+
+    .hero p{
+        font-size:18px;
+    }
+
+    .hero-image{
+        width:100%;
+        max-width:350px;
+        height:auto;
+        display:block;
+        margin:30px auto 0;
+    }
+
+    .btn-warning,
+    .btn-outline-dark{
+        width:160px;
+        margin:5px;
+    }
+
+    .card{
+        margin-bottom:20px;
+    }
+}
+/* ================= MOBILE ================= */
+
+@media (max-width:991px){
+
+    .hero{
+        text-align:center;
+        padding:70px 0;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .hero p{
+        font-size:18px;
+    }
+
+    .hero-image{
+        max-width:320px;
+        margin-top:30px;
+    }
+
+    .hero .btn{
+        width:170px;
+    }
+}

@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Student Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+
+<body class="bg-light">
+
+<!-- Navbar -->
+
+<nav class="navbar navbar-dark bg-primary shadow">
+
+    <div class="container">
+
+        <a class="navbar-brand fw-bold">
+            🎓 Placement Portal
+        </a>
+
+        <a th:href="@{/logout}" class="btn btn-light">
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+<div class="container mt-4">
+
+    <!-- Welcome -->
+
+    <div class="alert alert-primary shadow">
+
+        <h3>
+            Welcome,
+            <span th:text="${student.name}"></span> 👋
+        </h3>
+
+        <p class="mb-0">
+            Glad to see you back.
+        </p>
+
+    </div>
+    <!-- Success Message -->
+<div th:if="${success}" class="alert alert-success mt-3">
+    <span th:text="${success}"></span>
+</div>
+
+<!-- Error Message -->
+<div th:if="${error}" class="alert alert-danger mt-3">
+    <span th:text="${error}"></span>
+</div>
+
+    <div class="row">
+
+        <!-- Left -->
+
+        <div class="col-lg-4">
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4>👤 Student Profile</h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="text-center mb-4">
+
+<div class="text-center mb-4">
+
+    <img th:if="${student.photo != null}"
+         th:src="@{'/photos/' + ${student.photo}}"
+         class="rounded-circle border shadow"
+         width="140"
+         height="140"
+         style="object-fit:cover;">
+
+    <img th:unless="${student.photo != null}"
+         src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+         class="rounded-circle border shadow"
+         width="140"
+         height="140">
+
+    <form th:action="@{/uploadPhoto}"
+          method="post"
+          enctype="multipart/form-data"
+          class="mt-3">
+
+        <input type="file"
+               name="file"
+               class="form-control"
+               accept=".jpg,.jpeg,.png"
+               required>
+
+        <button class="btn btn-primary btn-sm mt-2 w-100">
+            Upload Photo
+        </button>
+<div th:if="${student.photo != null}">
+    <a th:href="@{/deletePhoto}"
+       class="btn btn-danger btn-sm mt-2 w-100"
+       onclick="return confirm('Delete your profile photo?')">
+        Delete Photo
+    </a>
+</div>
+    </form>
+
+    <h3 class="mt-3" th:text="${student.name}"></h3>
+
+</div>
+
+
+            </div>
+
+            <table class="table table-bordered">
+
+                <tr>
+                    <th>Email</th>
+                    <td th:text="${student.email}"></td>
+                </tr>
+
+                <tr>
+                    <th>Phone</th>
+                    <td th:text="${student.phone}"></td>
+                </tr>
+
+                <tr>
+                    <th>College</th>
+                    <td th:text="${student.college}"></td>
+                </tr>
+
+                <tr>
+                    <th>Branch</th>
+                    <td th:text="${student.branch}"></td>
+                </tr>
+
+                <tr>
+                    <th>CGPA</th>
+                    <td th:text="${student.cgpa}"></td>
+                </tr>
+
+                <tr>
+                    <th>GitHub</th>
+                    <td>
+                        <a th:href="${student.github}"
+                           th:text="${student.github}"
+                           target="_blank">
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>LinkedIn</th>
+                    <td>
+                        <a th:href="${student.linkedin}"
+                           th:text="${student.linkedin}"
+                           target="_blank">
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>LeetCode</th>
+                    <td>
+                        <a th:href="${student.leetcode}"
+                           th:text="${student.leetcode}"
+                           target="_blank">
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Skills</th>
+                    <td>
+
+                        <span class="badge bg-primary me-2"
+                              th:each="skill : ${#strings.arraySplit(student.skills, ',')}"
+                              th:text="${skill}">
+                        </span>
+
+                    </td>
+                </tr>
+
+            </table>
+
+            <a th:href="@{/edit-profile}"
+               class="btn btn-warning w-100">
+                Edit Profile
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+        <!-- Right -->
+
+        <div class="col-lg-8">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="card shadow text-center mb-4">
+
+                        <div class="card-body">
+
+                            <h1>📄</h1>
+
+<h5>Resume</h5>
+
+<form th:action="@{/uploadResume}"
+      method="post"
+      enctype="multipart/form-data">
+
+    <input type="file"
+           name="file"
+           class="form-control mb-2"
+           accept=".pdf"
+           required>
+
+    <button class="btn btn-primary btn-sm w-100">
+        Upload Resume
+    </button>
+
+</form>
+
+<div class="mt-3" th:if="${student.resume != null}">
+
+    <span class="badge bg-success mb-2">
+        Resume Uploaded
+    </span>
+
+    <br>
+
+    <a class="btn btn-success btn-sm"
+       th:href="@{'/uploads/' + ${student.resume}}"
+       target="_blank">
+
+        View Resume
+
+    </a>
+
+    <a class="btn btn-outline-primary btn-sm"
+       th:href="@{'/uploads/' + ${student.resume}}"
+       th:download="${student.resume}">
+
+        Download
+
+    </a>
+    <div class="mt-2">
+
+    <a th:href="@{/deleteResume}"
+       class="btn btn-danger btn-sm"
+       onclick="return confirm('Delete your resume?')">
+
+        Delete Resume
+
+    </a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="col-md-6">
+
+                    <div class="card shadow text-center mb-4">
+
+                        <div class="card-body">
+
+                            <h1>🏢</h1>
+
+<h5>Applied Companies</h5>
+
+<h2 class="text-primary"
+    th:text="${applied}">
+</h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+<!-- Skills Card -->
+
+<div class="col-md-6">
+
+    <div class="card shadow text-center mb-4">
+
+        <div class="card-body">
+
+
+            <h1>💻</h1>
+
+            <h5>Skills</h5>
+
+            <div class="mt-3">
+
+                <span class="badge bg-primary me-2"
+                      th:each="skill : ${#strings.arraySplit(student.skills, ',')}"
+                      th:text="${skill}">
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Profile Completion -->
+
+<div class="col-md-6">
+
+    <div class="card shadow text-center mb-4">
+
+        <div class="card-body">
+
+            <h1>📈</h1>
+
+            <h5>Profile Completion</h5>
+
+<div class="progress" style="height:25px;">
+
+    <div class="progress-bar bg-success"
+         role="progressbar"
+         th:style="'width:' + ${profileCompletion} + '%;'"
+         th:attr="aria-valuenow=${profileCompletion},aria-valuemin=0,aria-valuemax=100">
+
+        <span th:text="${profileCompletion + '%'}"></span>
+
+    </div>
+
+</div>
+
+        <span th:text="${profileCompletion + '%'}"></span>
+
+    </div>
+
+</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- Statistics -->
+
+<div class="row">
+
+    <div class="col-md-3">
+
+        <div class="card shadow text-center mb-4">
+
+            <div class="card-body">
+
+                <h2 class="text-primary" th:text="${applied}"></h2>
+
+                <h6>Applied</h6>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card shadow text-center mb-4">
+
+            <div class="card-body">
+
+                <h2 class="text-warning" th:text="${pending}"></h2>
+
+                <h6>Pending</h6>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card shadow text-center mb-4">
+
+            <div class="card-body">
+
+                <h2 class="text-success" th:text="${selected}"></h2>
+
+                <h6>Selected</h6>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card shadow text-center mb-4">
+
+            <div class="card-body">
+
+                <h2 class="text-danger" th:text="${rejected}"></h2>
+
+                <h6>Rejected</h6>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Latest Drives -->
+<div class="card shadow">
+
+    <div class="card-header bg-primary text-white">
+        Latest Placement Drives
+    </div>
+
+    <div class="card-body">
+<div class="row mb-3">
+
+    <div class="col-md-6">
+
+        <input
+            id="searchCompany"
+            class="form-control"
+            placeholder="🔍 Search Company">
+
+    </div>
+
+    <div class="col-md-3">
+
+        <select id="branchFilter"
+                class="form-select">
+
+            <option value="">All Branches</option>
+            <option>CSE</option>
+            <option>IT</option>
+            <option>ECE</option>
+            <option>EEE</option>
+            <option>ME</option>
+
+        </select>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <select id="cgpaFilter"
+                class="form-select">
+
+            <option value="">Any CGPA</option>
+            <option value="6">6+</option>
+            <option value="7">7+</option>
+            <option value="8">8+</option>
+            <option value="9">9+</option>
+
+        </select>
+
+    </div>
+
+</div>
+
+        <table class="table table-hover">
+
+            <thead>
+
+            <tr>
+<th>Company</th>
+<th>Role</th>
+<th>Package</th>
+<th>Details</th>
+<th>Action</th>
+            </tr>
+
+            </thead>
+
+            <tbody id="companyTable">
+
+            <tr th:each="company : ${companies}">
+
+    <td th:text="${company.companyName}"></td>
+
+    <td th:text="${company.role}"></td>
+
+    <td th:text="${company.packageOffered}"></td>
+
+    <td>
+
+        <button
+                class="btn btn-info btn-sm"
+                data-bs-toggle="modal"
+                th:attr="data-bs-target='#modal'+${company.id}">
+            View
+        </button>
+
+    </td>
+
+    <td>
+
+        <div th:if="${#lists.contains(applications.![companyName], company.companyName)}">
+
+            <button class="btn btn-secondary btn-sm" disabled>
+                Applied
+            </button>
+
+        </div>
+
+        <div th:unless="${#lists.contains(applications.![companyName], company.companyName)}">
+
+            <form th:action="@{/apply/{id}(id=${company.id})}" method="post">
+
+                <button class="btn btn-success btn-sm">
+                    Apply
+                </button>
+
+            </form>
+
+        </div>
+
+    </td>
+
+</tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+<!-- Company Details Modal -->
+
+<div th:each="company : ${companies}">
+
+    <div class="modal fade"
+         th:id="'modal' + ${company.id}"
+         tabindex="-1">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary text-white">
+
+                    <h5 class="modal-title">
+                        Company Details
+                    </h5>
+
+                    <button type="button"
+                            class="btn-close btn-close-white"
+                            data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th>Company</th>
+                            <td th:text="${company.companyName}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Role</th>
+                            <td th:text="${company.role}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Package</th>
+                            <td th:text="${company.packageOffered}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Location</th>
+                            <td th:text="${company.location}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Eligibility</th>
+                            <td th:text="${company.eligibility}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Minimum CGPA</th>
+                            <td th:text="${company.minCgpa}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Eligible Branch</th>
+                            <td th:text="${company.eligibleBranch}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Deadline</th>
+                            <td th:text="${company.deadline}"></td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Close
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- My Applications -->
+
+<div class="card shadow mt-4">
+
+    <div class="card-header bg-success text-white">
+
+        <h5 class="mb-0">My Applications</h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-bordered table-hover">
+
+            <thead class="table-dark">
+
+            <tr>
+                <th>Company</th>
+                <th>Role</th>
+                <th>Status</th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            <tr th:each="a : ${applications}">
+
+                <td th:text="${a.companyName}"></td>
+
+                <td th:text="${a.role}"></td>
+
+                <td>
+
+                    <span class="badge"
+                          th:class="${a.status == 'Selected'} ? 'badge bg-success' :
+                                    (${a.status == 'Rejected'} ? 'badge bg-danger' : 'badge bg-warning')"
+                          th:text="${a.status}">
+                    </span>
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+<script>
+
+function filterCompanies() {
+
+    let keyword = document.getElementById("searchCompany").value.toLowerCase();
+
+    let branch = document.getElementById("branchFilter").value.toLowerCase();
+
+    let cgpa = document.getElementById("cgpaFilter").value;
+
+    let rows = document.querySelectorAll("#companyTable tr");
+
+    rows.forEach(function(row){
+
+        let company = row.cells[0].innerText.toLowerCase();
+
+        let role = row.cells[1].innerText.toLowerCase();
+
+        let pkg = row.cells[2].innerText.toLowerCase();
+
+        let modalId = row.querySelector("button[data-bs-target]").getAttribute("data-bs-target");
+
+        let modal = document.querySelector(modalId);
+
+        let companyBranch =
+            modal.querySelector("tr:nth-child(7) td").innerText.toLowerCase();
+
+        let companyCgpa =
+            parseFloat(modal.querySelector("tr:nth-child(6) td").innerText);
+
+        let visible =
+            (company.includes(keyword) ||
+             role.includes(keyword) ||
+             pkg.includes(keyword))
+            &&
+            (branch === "" || companyBranch.includes(branch))
+            &&
+            (cgpa === "" || companyCgpa >= parseFloat(cgpa));
+
+        row.style.display = visible ? "" : "none";
+
+    });
+
+}
+
+document.getElementById("searchCompany").addEventListener("keyup", filterCompanies);
+
+document.getElementById("branchFilter").addEventListener("change", filterCompanies);
+
+document.getElementById("cgpaFilter").addEventListener("change", filterCompanies);
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
