@@ -252,3 +252,6 @@ footer{
         width:170px;
     }
 }
+html{
+    scroll-behavior: smooth;
+}
